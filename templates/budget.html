@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-budget.css') }}"/>
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo"></div>
+            <ul class="menu">
+                <li>
+                    <a href="{{ url_for('dashboard') }}" 
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li >
+                    <a href="{{ url_for('profile') }}"
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('statistics') }}"
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{{ url_for('budget') }}"
+                        <i class="fas fa-sack-dollar"></i>
+                        <span>Budget</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('faq') }}"
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="logout">
+                    <a href="#"
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+    </div>
+
+    <div class="main--content">
+        <div class="header--wrapper">
+            <div class="header--title">
+                <span>Set your</span>
+                <h2>Budget</h2>
+            </div>
+            <div class="user--info">
+                <div class="search--box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Search"/>
+                </div>
+                <img src="{{ url_for('static', filename='photo.png') }}" alt="" />
+            </div>
+        </div>
+
+        <div class="card--container">
+            <!-- <h3 class="main--title">Today's Data</h3>   -->
+
+            <div class="card--container2">
+                <h2></h2>
+                <h1>
+                    Set Your Budget <i class="fas fa-sack-dollar"></i>
+                </h1>
+                              
+
+                    <div class="card--header">
+                        <div class="amount">
+                            <span class="card--detail">
+                                <div class="real-time-section">
+                                    <p id="real-time"></p>
+                                    <p id="day-date"></p>
+                                </div>
+                            </span>
+                        </div>
+                        <h1><i class="fas fa-clock"></i></h1>
+                    </div>
+            </div>
+
+        </div>
+
+
+        <div class="card--container">
+                <div class="wrapper">
+                    <div class="container">
+                        <form method="post"action="{{ url_for('set_budget') }}" >
+                            <div class="sub-container">
+                                <!-- Budget -->
+                                <div class="total-amount-container">
+                                <h3>Budget</h3>
+                                <p class="hide error" id="budget-error">
+                                    Value cannot be empty or negative
+                                </p>
+                                <input
+                                    type="number"
+                                    name="budget"
+                                    placeholder="Enter Amount"
+                                />
+                                <input
+                                    type="number"
+                                    class="product-title"
+                                    name="budget_month"
+                                    placeholder="Enter Month ( 1 / 2 /..... 12)"
+                                    />
+                                <button class="submit" id="total-amount-button">Set Budget</button>
+                            </div>
+                        </form>
+                        <!-- List -->
+                            <!-- <div class="list">
+                                <h3>Budget By Month</h3>
+                                <div class="list-container" id="list"></div>
+                              </div>-->
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        
+
+
+        <script>
+        function updateRealTime() {
+            const currentTime = new Date();
+            const hours = currentTime.getHours();
+            const minutes = currentTime.getMinutes();
+            const seconds = currentTime.getSeconds();
+            document.getElementById('real-time').innerHTML = `Time: ${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateDayDate() {
+            const currentDate = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = currentDate.toLocaleDateString('en-US', options);
+            document.getElementById('day-date').innerHTML = `Date: ${formattedDate}`;
+        }
+
+        // Update real-time and date every second
+        setInterval(() => {
+            updateRealTime();
+            updateDayDate();
+        }, 1000);
+
+        // Initial update
+        updateRealTime();
+        updateDayDate();
+    </script>
+    
+
+</body>
+</html>

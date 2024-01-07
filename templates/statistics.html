@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Statistics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-statistics.css') }}"/>
+    <link 
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo"></div>
+            <ul class="menu">
+                <li>
+                    <a href="{{ url_for('dashboard') }}" 
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('profile') }}"
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="statistics"
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('budget') }}"
+                        <i class="fas fa-sack-dollar"></i>
+                        <span>Budget</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('faq') }}"
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="logout">
+                    <a href="#"
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+    </div>
+
+    <div class="main--content">
+        <div class="header--wrapper">
+            <div class="header--title">
+                <span>Expense</span>
+                <h2>Statistics</h2>
+            </div>
+            <div class="user--info">
+                <div class="search--box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Search"/>
+                </div>
+                <img src="{{ url_for('static', filename='photo.png') }}" alt="" />
+            </div>
+        </div>
+
+
+        <div class="card--container">
+            <!-- <div id="columnchart_material" style="width: 50%; height: 500px;"></div>  <div id="chart_div" style="width: 400px; height: 120px;"></div> -->
+
+            <div id="top_x_div" style="width: 500px; height: 500px;"></div>
+            <div class="card--container1">
+                <form method="post"action="{{ url_for('filter_by_month') }}">
+                    <div class="search--box2">
+                            <i class="fa-solid fa-search"></i>
+                            <!-- <input type="text" placeholder="Search"/> -->
+                            <select name="month" required>
+                                {% if month %}
+                                    <option value="00" selected>{{ month }}</option>
+                                {% else %}
+                                    <option value="00">Select Month</option>
+                                {% endif %}
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                    </div>
+
+
+                    <div class="payment--card light-green">
+                        <div class="card--header">
+                            <div class="amount">
+                                <span class="title">
+                                Profit/Loss</span>
+                                <span class="amount--value">
+                                    {% if month %}
+                                    ₹ {{ profit }}
+                                    {% else %}
+                                    ₹ {{ profit_loss }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <i class="fa-solid fa-indian-rupee-sign icon dark-green"></i>
+                        </div>
+                        <span class="card--detail">SBI **** **** 9974</span>
+                    </div>
+
+                    <div class="payment--card light-red">
+                        <div class="card--header">
+                            <div class="amount">
+                                <span class="title">
+                                Total Expense</span>
+                                <span class="amount--value">
+                                    {% if month %}
+                                    ₹ {{ expense }}
+                                    {% else %}
+                                    ₹ {{ total_expense }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <i class="fa-solid fa-indian-rupee-sign icon dark-red"></i>
+                        </div>
+                        <span class="card--detail">SBI **** **** 9974</span>
+                    </div>
+
+                        <button type="submit">Fetch Data</button>
+
+                </form>
+            </div>
+
+
+
+        </div>
+
+        
+
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawStuff);
+
+      function drawStuff() {
+        var data = new google.visualization.arrayToDataTable([
+          ['Category', 'Expense'],
+          ["Food", {{ food }}],
+          ["Rent", {{ rent }}],
+          ["Personal", {{ personal }}],
+          ["Recharge", {{ recharge }}],
+          ["E-Bill", {{ e_bill }}],
+          ["Grocery", {{ grocery }}],
+          ["Travel", {{ travel }}],
+          ["Stationary", {{ stationary }}]
+        ]);
+
+        var options = {
+        width: 800,
+        legend: { position: 'top', textStyle: { fontSize: 14 } },
+        chart: {
+          title: 'Expenses by Category',
+          titleTextStyle: { fontSize: 22, bold: false },
+        },
+        axes: {
+          x: {
+            0: { side: 'top', label: 'Expense Category' } // Top x-axis.
+          }
+        },
+        bar: { groupWidth: "80%" },
+        colors: ['#3366cc', '#dc3912', '#ff9900', '#109618', '#990099', '#0099c6', '#dd4477'],
+        titleTextStyle: { fontSize: 18, bold: false },
+        axes: {
+          x: {
+            0: { side: 'top', label: 'Expense Category' }
+          },
+          y: {
+            0: { side: 'left', label: 'Expense Amount', titleTextStyle: { fontSize: 14 } }
+          }
+        },
+        bar: { groupWidth: "80%" },
+        annotations: {
+          alwaysOutside: true,
+          textStyle: {
+            fontSize: 12,
+            auraColor: 'none',
+            color: '#555'
+          },
+          boxStyle: {
+            stroke: '#ccc',
+            strokeWidth: 1,
+            gradient: {
+              color1: '#f3e5f5',
+              color2: '#f3e5f5',
+              x1: '0%',
+              y1: '0%',
+              x2: '100%',
+              y2: '100%'
+            }
+          }
+        },
+        animation: {
+          startup: true,
+          duration: 1000,
+          easing: 'out',
+        },
+        tooltip: {
+          isHtml: true,
+          showColorCode: true,
+        },
+        hAxis: {
+          title: 'Expense Categories',
+          titleTextStyle: { italic: false, bold: false },
+          slantedText: true,
+          slantedTextAngle: 45,
+          showTextEvery: 1,
+          textStyle: { fontSize: 14 },
+        },
+        vAxis: {
+          title: 'Expense Amount',
+          titleTextStyle: { italic: false, bold: false },
+          minValue: 0,
+          format: '₹ #,##0',
+          textStyle: { fontSize: 14 },
+        },
+
+      };
+
+
+        var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+        // Convert the Classic options to Material options.
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      };
+    </script>
+    <script type="text/javascript">
+          google.charts.load('current', {'packages':['gauge']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['Memory', 80],
+              ['CPU', 55],
+              ['Network', 68]
+            ]);
+
+            var options = {
+              width: 400, height: 120,
+              redFrom: 90, redTo: 100,
+              yellowFrom:75, yellowTo: 90,
+              minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+
+            setInterval(function() {
+              data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+              chart.draw(data, options);
+            }, 13000);
+            setInterval(function() {
+              data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+              chart.draw(data, options);
+            }, 5000);
+            setInterval(function() {
+              data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+              chart.draw(data, options);
+            }, 26000);
+          }
+    </script>
+
+    
+
+</body>
+</html>

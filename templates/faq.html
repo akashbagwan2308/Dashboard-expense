@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-faq.css') }}"/>
+    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo"></div>
+            <ul class="menu">
+                <li>
+                    <a href="{{ url_for('dashboard') }}" 
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li >
+                    <a href="{{ url_for('profile') }}"
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('statistics') }}"
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('budget') }}"
+                        <i class="fas fa-sack-dollar"></i>
+                        <span>Budget</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{{ url_for('faq') }}"
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="logout">
+                    <a href="#"
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+    </div>
+
+    <div class="main--content">
+        <div class="header--wrapper">
+            <div class="header--title">
+                <span>Find your</span>
+                <h2>FAQ's</h2>
+            </div>
+            <div class="user--info">
+                <div class="search--box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="Search"/>
+                </div>
+                <img src="{{ url_for('static', filename='photo.png') }}" alt="" />
+            </div>
+        </div>
+
+        <div class="card--container">
+            <!-- <h3 class="main--title">Today's Data</h3>   -->
+            <h2></h2>
+                <h1>
+                    Frequently Asked Question 
+                </h1>
+            <div class="card--container2">
+
+                <span class="card--detail">
+                    <p>
+                        <h2>FAQs for Expense Dashboard Flask App:</h2>
+                        <br>
+
+                        <h2>Q: How do I access the Expense Dashboard?</h2>
+                        <p>A: You can access the Expense Dashboard by running the Flask application locally and navigating to the provided URL, typically http://127.0.0.1:5000/ in your web browser.</p>
+                        <br>
+                        <br>
+                        <img src="{{ url_for('static', filename='terminal.png') }}" alt="" width="600px" height="300px" />
+                        <br>
+                        <br>
+                        <h2>Q: How can I view the latest financial data?</h2>
+                        <p>A: The latest financial data is displayed on the homepage. You can visit the "Dashboard" or "Statistics" pages to view detailed financial metrics, including total income, total expenses, profit/loss, and balance.</p>
+                        <br>
+                        <h2>Q: How do I add a new expense or deposit?</h2>
+                        <p>A: Navigate to the "Dashboard" page and use the "Add Expense/Deposit" button. Fill in the required information such as date, transaction type, description, amount, and category.</p>
+                        <br>
+                        <br>
+                        <img src="{{ url_for('static', filename='expense.png') }}" alt="" width="600px" height="300px" />
+                        <br>
+                        <br>
+                        <h2>Q: Can I filter expenses by month?</h2>
+                        <p>A: Yes, you can filter expenses by month on the "Statistics" page. Use the "Filter by Month" option, select the desired month, and click "Submit" to view specific expense details for that month.</p>
+                        <br>
+                        <br>
+                        <img src="{{ url_for('static', filename='month.png') }}" alt="" width="600px" height="300px" />
+                        <br>
+                        <br>
+                        <h2>Q: How can I set a budget for a specific month?</h2>
+                        <p>A: Go to the "Budget" page and use the "Set Budget" option. Enter the budget amount and select the month for which you want to set the budget.</p>
+                        <br>
+                        <br>
+                        <img src="{{ url_for('static', filename='budget.png') }}" alt="" width="600px" height="300px" />
+                        <br>
+                        <br>
+                        <h2>Q: What categories are available for expenses?</h2>
+                        <p>A: The app supports various expense categories, including Lunch, Nashta, Dinner, Eve.Break, Off Dinner, Rent, Personal, Recharges, E-Bill, Grocery, Travel, and Stationary.</p>
+                        <br>
+                        <br>
+                        <img src="{{ url_for('static', filename='category.png') }}" alt="" width="600px" height="300px" />
+                        <br>
+                        <br>
+                        <h2>Q: How do I delete a specific entry from the records?</h2>
+                        <p>A: On the "Profile" page, you can delete a specific entry by selecting the entry and using the "Delete Entry" button. Confirm the deletion to remove the selected entry from the records.</p>
+                        <br>
+                        <br>
+                        <img src="{{ url_for('static', filename='delete.png') }}" alt="" width="600px" height="300px" />
+                        <br>
+                        <br>
+                        <h2>Q: How often should I update the Excel file with data changes?</h2>
+                        <p>A: The Excel file is updated automatically when you add or delete entries through the app. There's no need for manual updates unless you want to maintain a backup or share the Excel file.</p>
+                        <br>
+                        <h2>Q: What financial metrics are available on the Dashboard?</h2>
+                        <p>A: The Dashboard displays total income, total expenses, profit/loss, and the current balance. These metrics provide an overview of your financial situation.</p>
+                        <br>
+                        <br>
+                        <img src="{{ url_for('static', filename='financial.png') }}" alt="" width="800px" height="200px" />
+                        <br>
+                        <br>
+                        <h2>Q: How do I set an overall budget for all categories?</h2>
+                        <p>Currently, the app supports setting budgets for individual months. To set an overall budget, you may consider aggregating monthly budgets manually or implementing a custom solution based on your needs.</p> 
+                        <br>
+                        <br>
+                        
+                        <h3>Feel free to reach out if you have any further questions or encounter issues while using the Expense Dashboard Flask App!</h3>
+
+                    </p>
+                </span>
+                
+                    
+            </div>
+
+        </div>
+
+
+        
+
+
+        
+
+
+
+    
+
+</body>
+</html>
