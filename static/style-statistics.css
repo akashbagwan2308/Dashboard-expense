@@ -21,7 +21,8 @@ body{
     color: #fff;
     overflow: hidden;
     transition: all 0.5s linear;
-    background: rgba(113, 99, 186, 255);
+    background: rgba(65,103,214, 255);
+
 }
 .sidebar:hover{
     width: 210px;
@@ -46,6 +47,7 @@ body{
 }
 .menu li:hover, .active{
     background: #e0e0e058;
+    box-shadow: 0 0 10px rgba(8,7,16,0.6);
 }
 .menu a {
     color: #fff;
@@ -92,9 +94,10 @@ body{
     border-radius: 10px;
     padding: 10px 2rem;
     margin-bottom: 1rem;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
 }
 .header--title{
-    color: rgba(113, 99, 186, 255);
+    color: rgba(65,103,214, 255);
 }
 .user--info{
     display: flex;
@@ -104,7 +107,7 @@ body{
 .search--box{
     background: rgb(237, 237, 237);
     border-radius: 15px;
-    color: rgba(113, 99, 186, 255);
+    color: rgba(65,103,214, 255);
     display: flex;
     align-items: center;
     gap : 5px;
@@ -118,7 +121,7 @@ body{
 .search--box2{
     background: rgb(237, 237, 237);
     border-radius: 15px;
-    color: rgba(113, 99, 186, 255);
+    color: rgba(65,103,214, 255);
     display: flex;
     align-items: center;
     gap : 5px;
@@ -172,7 +175,7 @@ button[type="submit"]:hover {
 .search--box i{
     font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.5s ease-out;    
+    transition: all 0.5s ease-out;
 }
 .search--box i:hover{
     transform: scale(1.2);
@@ -185,6 +188,7 @@ button[type="submit"]:hover {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
 }
 .card--container1{
     background: #fff;
@@ -203,7 +207,7 @@ button[type="submit"]:hover {
     gap: 1rem;
 }
 .main--title{
-    color: rgba(113, 99, 186, 255);
+    color: rgba(65,103,214, 255);
     padding-bottom: 15px;
     font-size: 15px;
 }
@@ -220,6 +224,7 @@ button[type="submit"]:hover {
     flex-direction: column;
     justify-content: space-between;
     transition: all 0.5s ease-in-out;
+
 }
 .payment--card:hover{
     transform: translateY(-5px);
@@ -283,52 +288,4 @@ button[type="submit"]:hover {
 }
 .dark-blue{
     background: blue;
-}
-/* tabular wrapper */
-.tabular--wrapper{
-    background: #fff;
-    margin-top: 1rem;
-    border-radius: 10px;
-    padding: 2rem;
-}
-
-.table-container{
-    width: 100%;
-}
-table{
-    width: 100%;
-    border-collapse: collapse;
-}
-thead{
-    background: rgba(113, 99, 186, 255);
-    color: #fff;
-}
-th{
-    padding: 15px;
-    text-align: left;
-}
-tbody{
-    /* background: #f2f2f2; */
-    background: #d3bbfc;
-}
-td{ 
-    padding: 1px;
-    font-size: 14px;
-    columns: #333;
-}
-
-tfoot{
-    background: rgba(113, 99, 186, 255);
-    font-weight: bold;
-    color: #fff;
-
-}
-tfoot td{
-    padding: 15px;
-    color: #fff;
-}
-.table-container button{
-    color: green;
-    background: none;
-    cursor: pointer;
 }

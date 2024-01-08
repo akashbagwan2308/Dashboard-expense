@@ -21,7 +21,7 @@ body{
     color: #fff;
     overflow: hidden;
     transition: all 0.5s linear;
-    background: rgba(113, 99, 186, 255);
+    background: rgb(51,102,204,255);
 }
 .sidebar:hover{
     width: 210px;
@@ -46,6 +46,7 @@ body{
 }
 .menu li:hover, .active{
     background: #e0e0e058;
+    box-shadow: 0 0 10px rgba(8,7,16,0.6);
 }
 .menu a {
     color: #fff;
@@ -92,9 +93,10 @@ body{
     border-radius: 10px;
     padding: 10px 2rem;
     margin-bottom: 1rem;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
 }
 .header--title{
-    color: rgba(113, 99, 186, 255);
+    color: rgb(51,102,204,255);
 }
 .user--info{
     display: flex;
@@ -104,7 +106,7 @@ body{
 .search--box{
     background: rgb(237, 237, 237);
     border-radius: 15px;
-    color: rgba(113, 99, 186, 255);
+    color: rgb(51,102,204,255);
     display: flex;
     align-items: center;
     gap : 5px;
@@ -132,6 +134,7 @@ body{
     background: #ffffff;
     padding: 2rem;
     border-radius: 10px;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
 }
 
 
@@ -143,7 +146,7 @@ body{
   display: flex;
 }
 .main--title{
-    color: rgba(113, 99, 186, 255);
+    color: rgb(51,102,204,255);
     padding-bottom: 15px;
     font-size: 15px;
 }

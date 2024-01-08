@@ -1,9 +1,9 @@
-from flask import Flask, render_template, jsonify, request,redirect, url_for
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 import pandas as pd
-from datetime import datetime
+
 
 app = Flask(__name__)
-
+app.secret_key = 'asdfghjklpoiuytrewq1234567890mnbvcxz'
 # Load initial data from the Excel file
 excel_file_path = 'E:/expense2024_dashboard.xlsx'
 df = pd.read_excel(excel_file_path)
@@ -23,7 +23,7 @@ def write_data(new_data):
 def calculate_financial_metrics():
     total_income = df.loc[df['Transaction'] == 'Deposit', 'Amount'].sum()
     total_expense = df.loc[df['Transaction'] == 'Expense', 'Amount'].sum()
-    balance =  round(total_income - total_expense ,2 )
+    balance = total_income -total_expense 
     return total_income, total_expense, balance
 
 def calulate_expense_metrics():
@@ -60,16 +60,38 @@ def calculate_expense_metrics(selected_month):
     return food, rent, personal, recharge, e_bill, grocery, travel, stationary,expense
 
 
+def login_is_successful(email, password):
+    # Replace these values with your actual authentication logic
+    valid_email = "akashbagwan01"
+    valid_password = "Akash@2308"
+
+    # Check if the provided email and password match the predefined values
+    return email == valid_email and password == valid_password
 
 
+@app.route('/login', methods=['POST'])
+def login():
+
+        username = request.form['username']
+        password = request.form['password']
+        print(username,password)
+        
+        if login_is_successful(username, password):
+            # If successful, redirect to the profile page
+            return redirect(url_for('profile'))
+        return render_template('index.html')
+
+@app.route('/logout')
+def logout():
+    # Redirect to the index page and set headers to prevent caching
+    # Clear user session on logout
+    session.pop('user', None)
+    # Redirect to the index page
+    return redirect(url_for('index'))
 
 @app.route('/')
 def index():
-    latest_data = read_data()[-5:][::-1]  # Get the latest 5 data entries
-    total_income, total_expense, balance = calculate_financial_metrics()
-    food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
-    profit__loss = 7000 + recharge + e_bill - total_expense
-    return render_template('index.html', latest_data=latest_data, total_income=total_income, total_expense=total_expense, profit_loss=profit__loss, balance=balance)
+        return render_template('index.html')
 
 @app.route('/statistics')
 def statistics():
@@ -90,11 +112,12 @@ def dashboard():
 
 @app.route('/profile')
 def profile():
+
     latest_data = read_data()[-5:][::-1]  # Get the latest 5 data entries
     total_income, total_expense, balance = calculate_financial_metrics()
     food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
     profit__loss = 7000 + recharge + e_bill - total_expense
-    return render_template('index.html', latest_data=latest_data, total_income=total_income,
+    return render_template('profile.html', latest_data=latest_data, total_income=total_income,
                            total_expense=total_expense, profit_loss=profit__loss, balance=balance)
 
 # Add a new route to handle data operations
@@ -164,6 +187,7 @@ def delete_entry():
     df.to_excel(excel_file_path, index=False)
 
     return redirect(url_for('profile'))
+
 @app.route('/faq')
 def faq():
     return render_template('faq.html')

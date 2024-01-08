@@ -21,7 +21,7 @@ body{
     color: #fff;
     overflow: hidden;
     transition: all 0.5s linear;
-    background: rgba(113, 99, 186, 255);
+    background: rgb(51,102,204,255);
 }
 .sidebar:hover{
     width: 210px;
@@ -46,6 +46,7 @@ body{
 }
 .menu li:hover, .active{
     background: #e0e0e058;
+    box-shadow: 0 0 20px rgba(8,7,16,0.6);
 }
 .menu a {
     color: #fff;
@@ -92,9 +93,10 @@ body{
     border-radius: 10px;
     padding: 10px 2rem;
     margin-bottom: 1rem;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
 }
 .header--title{
-    color: rgba(113, 99, 186, 255);
+    color: rgb(51,102,204,255);
 }
 .user--info{
     display: flex;
@@ -104,7 +106,7 @@ body{
 .search--box{
     background: rgb(237, 237, 237);
     border-radius: 15px;
-    color: rgba(113, 99, 186, 255);
+    color: rgb(51,102,204,255);
     display: flex;
     align-items: center;
     gap : 5px;
@@ -118,7 +120,7 @@ body{
 .search--box2{
     background: rgb(255, 255, 255);
     border-radius: 8px;
-    color: rgba(113, 99, 186, 255);
+    color: rgb(51,102,204,255);
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: 10px;
@@ -143,7 +145,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #3341ff; /* Darker green color on hover */
+    background-color: #3341ff;
     color : #fff;
 }
 
@@ -164,7 +166,7 @@ button[type="submit"]:hover {
 .search--box i{
     font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.5s ease-out;    
+    transition: all 0.5s ease-out;
 }
 .search--box i:hover{
     transform: scale(1.2);
@@ -174,6 +176,7 @@ button[type="submit"]:hover {
     background: #fff;
     padding: 2rem;
     border-radius: 10px;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
 }
 .card--wrapper{
     display: flex;
@@ -181,7 +184,7 @@ button[type="submit"]:hover {
     gap: 1rem;
 }
 .main--title{
-    color: rgba(113, 99, 186, 255);
+    color: rgb(51,102,204,255);
     padding-bottom: 15px;
     font-size: 15px;
 }
@@ -197,6 +200,7 @@ button[type="submit"]:hover {
     flex-direction: column;
     justify-content: space-between;
     transition: all 0.5s ease-in-out;
+    box-shadow: 0 0.6em 1.2em rgba(28, 0, 80, 0.06);
 }
 .payment--card:hover{
     transform: translateY(-5px);
@@ -267,17 +271,21 @@ button[type="submit"]:hover {
     margin-top: 1rem;
     border-radius: 10px;
     padding: 2rem;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
 }
 
 .table-container{
     width: 100%;
+
+
 }
 table{
     width: 100%;
     border-collapse: collapse;
+
 }
 thead{
-    background: rgba(113, 99, 186, 255);
+    background: rgb(51,102,204,255);
     color: #fff;
 }
 th{
@@ -286,17 +294,17 @@ th{
     text-align: left;
 }
 tbody{
-    /* background: #f2f2f2; */
-    background: #d3bbfc;
+    background: #f2f2f2;
+
 }
-td{ 
+td{
     padding: 1px;
     font-size: 14px;
     columns: #333;
 }
 
 tfoot{
-    background: rgba(113, 99, 186, 255);
+    background: rgb(51,102,204,255);
     font-weight: bold;
     color: #fff;
 

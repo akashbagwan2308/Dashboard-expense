@@ -56,7 +56,7 @@
                     </a>
                 </li>
                 <li class="logout">
-                    <a href="#"
+                    <a href="{{ url_for('logout') }}"
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </a>
@@ -102,10 +102,7 @@
                     </div>
             </div>
 
-        </div>
 
-
-        <div class="card--container">
                 <div class="wrapper">
                     <div class="container">
                         <form method="post"action="{{ url_for('set_budget') }}" >

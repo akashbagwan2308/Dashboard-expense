@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Expense Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style-index.css') }}"/>
     <link 
      rel="stylesheet"
      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -12,13 +12,13 @@
     <div class="sidebar">
         <div class="logo"></div>
             <ul class="menu">
-                <li class="active">
+                <li>
                     <a href="{{ url_for('dashboard') }}" 
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="{{ url_for('profile') }}"
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
@@ -42,6 +42,7 @@
                         <span>FAQ</span>
                     </a>
                 </li>
+                
                 <li>
                     <a href="#"
                         <i class="fas fa-cog"></i>
@@ -60,8 +61,8 @@
     <div class="main--content">
         <div class="header--wrapper">
             <div class="header--title">
-                <span>Primary</span>
-                <h2>Dashboard</h2>
+                <span>User</span>
+                <h2>Profile</h2>
             </div>
             <div class="user--info">
                 <div class="search--box">
@@ -136,7 +137,7 @@
 
 
         <div class="tabular--wrapper">
-            <h3 class="main--title">Add Expense</h3>
+            <h3 class="main--title">Finance data</h3>
             <div class="table-container">
                 <table>
                     <thead>
@@ -150,57 +151,21 @@
                         </tr>
                     </thead>    
                     <tbody>
-                    <!--     <tr>
-                            <td>2024-01-05</td>
-                            <td>Expense</td>
-                            <td>Office Supplier</td>
-                            <td>$250</td>
-                            <td>Office Expense</td>
-                            <td>Pending</td>
-                            <td><button>Edit</button></td>
-                        </tr>  -->
-
-                        <form method="post"action="{{ url_for('add_expense') }}" >
+                        {% for entry in latest_data %}
                             <tr>
-                                <td><div class="search--box2">
-                                    <input type="text" name="date" placeholder="mm/dd/yyyy" required/>
-                                </div></td>
-                                <td><div class="search--box2">
-                                    <select name="transaction" required>
-                                        <option value="Deposit">Deposit</option>
-                                        <option value="Expense">Expense</option>
-                                    </select>
-                                </div></td>
-                                <td><div class="search--box2">
-                                    <input type="text" name="description" placeholder="Description" required/>
-                                </div></td>
-                                <td><div class="search--box2">
-                                    <input type="text" name="amount" placeholder="Amount" required/>
-                                </div></td>
-                                <td><div class="search--box2">
-                                    <select name="category" required>
-                                        <option value="Income">Income</option>
-                                        <option value="Nashta">Nashta</option>
-                                        <option value="Lunch">Lunch</option>
-                                        <option value="Eve.Break">Eve.Break</option>
-                                        <option value="Dinner">Dinner</option>
-                                        <option value="Off Dinner">Off Dinner</option>
-                                        <option value="Personal">Personal</option>
-                                        <option value="Rent">Rent</option>
-                                        <option value="E - Bill">E - Bill</option>
-                                        <option value="Recharges">Recharge</option>
-                                        <option value="Grocery">Grocery</option>
-                                        <option value="Travel">Travel</option>
-                                        <option value="Stationary">Stationary</option>
-                                    </select>
-                                </div></td>
-
+                                <td>{{ entry['Date'] }}</td>
+                                <td>{{ entry['Transaction'] }}</td>
+                                <td>{{ entry['Description'] }}</td>
+                                <td>{{ entry['Amount'] }}</td>
+                                <td>{{ entry['Category'] }}</td>
                                 <td>
-                                    <button type="submit">Add Expense</button>
+                                    <form method="POST" action="{{ url_for('delete_entry') }}">
+                                        <input type="hidden" name="entry_index" value="{{ loop.index0 }}">
+                                        <button type="submit">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
-                        </form>
-
+                        {% endfor %}
                     </tbody>
                     <tfoot>
                         <tr>
@@ -213,8 +178,8 @@
             </div>
         </div>
 
-
     </div>
+    
 
 </body>
 </html>
