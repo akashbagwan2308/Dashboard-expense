@@ -117,7 +117,17 @@ body{
     padding: 10px;
 }
 
-
+.search--box2{
+    display: block;
+    width: 100%;
+    padding: 0.6em 0.3em;
+    border: 1px solid #d0d0d0;
+    border-radius: 0.3em;
+    color: #414a67;
+    outline: none;
+    font-weight: 400;
+    margin-bottom: 0.6em;
+}
 
 
 
@@ -331,6 +341,7 @@ body{
     padding: 1.8em 1.2em;
     box-shadow: 0 0.6em 1.2em rgba(28, 0, 80, 0.06);
     border-radius: 0.6em;
+    margin-top : 15px;
   }
   .sublist-content {
     width: 100%;
@@ -338,7 +349,7 @@ body{
     margin-bottom: 0.6em;
     padding: 0.5em 1em;
     display: grid;
-    grid-template-columns: 3fr 2fr 1fr 1fr;
+    grid-template-columns: 2fr 2fr 2fr 0fr;
   }
   .product {
     font-weight: 500;
@@ -382,3 +393,55 @@ body{
       gap: 1em;
     }
   }
+
+/* tabular wrapper */
+.tabular--wrapper{
+    background: #fff;
+    margin-top: 1rem;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 0 8px rgba(8,7,16,0.6);
+}
+
+.table-container{
+    width: 100%;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+thead{
+    background: rgb(51,102,204,255);
+    color: #fff;
+}
+th{
+    padding: 15px;
+    paddin-left : 20px;
+    text-align: center;
+}
+tbody{
+    background: #f2f2f2;
+
+}
+td{
+    padding: 10px;
+    padding-left: 15px;
+    font-size: 14px;
+    columns: #333;
+}
+
+tfoot{
+    background: rgb(51,102,204,255);
+    font-weight: bold;
+    color: #fff;
+
+}
+tfoot td{
+    padding: 15px;
+    color: #fff;
+}
+.table-container button{
+    color: blue;
+    background: none;
+    cursor: pointer;
+}

@@ -1,12 +1,31 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 import pandas as pd
+from datetime import datetime
 
 
 app = Flask(__name__)
 app.secret_key = 'asdfghjklpoiuytrewq1234567890mnbvcxz'
+
+current_date = datetime.now()
+current_month_number = current_date.month
+
 # Load initial data from the Excel file
 excel_file_path = 'E:/expense2024_dashboard.xlsx'
-df = pd.read_excel(excel_file_path)
+sheet_name = 'Sheet1'
+ 
+df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
+budget_df = pd.read_excel(excel_file_path, sheet_name='Sheet2')
+
+
+def read_data_budget():
+    return budget_df.to_dict(orient='records')
+
+def write_data_budget(new_data):
+    global budget_df  # Declare df as a global variable
+    budget_df_new = pd.DataFrame(new_data)
+    budget_df = pd.concat([budget_df, budget_df_new], ignore_index=True)
+    budget_df.to_excel(excel_file_path, index=False)
+    return {'message': 'Data updated successfully!'}
 
 
 def read_data():
@@ -23,7 +42,7 @@ def write_data(new_data):
 def calculate_financial_metrics():
     total_income = df.loc[df['Transaction'] == 'Deposit', 'Amount'].sum()
     total_expense = df.loc[df['Transaction'] == 'Expense', 'Amount'].sum()
-    balance = total_income -total_expense 
+    balance = total_income -total_expense
     return total_income, total_expense, balance
 
 def calulate_expense_metrics():
@@ -75,7 +94,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         print(username,password)
-        
+
         if login_is_successful(username, password):
             # If successful, redirect to the profile page
             return redirect(url_for('profile'))
@@ -98,7 +117,7 @@ def statistics():
     #return render_template('statistics.html')
     total_income, total_expense, balance = calculate_financial_metrics()
     food, rent, personal,recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
-    profit__loss = 7000 + recharge + e_bill - total_expense
+    profit__loss = int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense
     return render_template('statistics.html', total_income=total_income,
                            total_expense=total_expense, profit_loss=profit__loss, balance=balance,food=food, rent=rent, personal=personal,recharge=recharge, e_bill=e_bill,
                            grocery=grocery, travel=travel, stationary=stationary)
@@ -107,7 +126,7 @@ def statistics():
 def dashboard():
     total_income, total_expense, balance = calculate_financial_metrics()
     food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
-    profit__loss = 7000 + recharge + e_bill - total_expense
+    profit__loss = int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense
     return render_template('dashboard.html', total_income=total_income, total_expense=total_expense, profit_loss=profit__loss, balance=balance)
 
 @app.route('/profile')
@@ -116,7 +135,7 @@ def profile():
     latest_data = read_data()[-5:][::-1]  # Get the latest 5 data entries
     total_income, total_expense, balance = calculate_financial_metrics()
     food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
-    profit__loss = 7000 + recharge + e_bill - total_expense
+    profit__loss = int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense
     return render_template('profile.html', latest_data=latest_data, total_income=total_income,
                            total_expense=total_expense, profit_loss=profit__loss, balance=balance)
 
@@ -158,7 +177,7 @@ def filter_by_month():
     month = request.form['month']
     food_expense, rent_expense, personal_expense, recharge_expense, e_bill_expense, grocery_expense, travel_expense, stationary_expense ,expense= calculate_expense_metrics(
         month)
-    profit = 7000 + recharge_expense + e_bill_expense -expense
+    profit = int(budget_df[int(month)][-1:]) + recharge_expense + e_bill_expense -expense
     year = [" Select Month ", 'January','February','March','April','May','June','July','August','September','October','November','December']
     month = year[int(month)]
 
@@ -171,12 +190,18 @@ def filter_by_month():
 def set_budget():
     budget = request.form['budget']
     budget_month = request.form['budget_month']
+    old_budget = budget_df
+    old_budget[int(budget_month)]=budget
+    new_budget = old_budget
+    write_data_budget(new_budget)
+    return redirect(url_for('budget'))
 
-    return render_template('budget.html')
 
 @app.route('/budget')
 def budget():
-    return render_template('budget.html')
+    budget_data = read_data_budget()[-1:]
+    print(budget_data)
+    return render_template('budget.html',budget_data = budget_data)
 
 @app.route('/delete_entry', methods=['POST'])
 def delete_entry():
@@ -194,3 +219,4 @@ def faq():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

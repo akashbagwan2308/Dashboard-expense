@@ -118,20 +118,43 @@
                                     name="budget"
                                     placeholder="Enter Amount"
                                 />
-                                <input
-                                    type="number"
-                                    class="product-title"
-                                    name="budget_month"
-                                    placeholder="Enter Month ( 1 / 2 /..... 12)"
-                                    />
+                                <h3>Select Month</h3>
+                                <div class="search--box2" >
+                                <select name="budget_month"  required>
+                                        <option value="01">January</option>
+                                        <option value="02">February</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                </select>
+                                <br>
+                                </div>
                                 <button class="submit" id="total-amount-button">Set Budget</button>
                             </div>
                         </form>
                         <!-- List -->
-                            <!-- <div class="list">
-                                <h3>Budget By Month</h3>
-                                <div class="list-container" id="list"></div>
-                              </div>-->
+                        <div class="list">
+                            <h3>Budget By Month</h3>
+                            <div class="list-container" ></div><br>
+                            <div class="sublist-content" >
+                            {% for entry in budget_data %}
+                            <h3> January : {{ entry[1] }}</h3><h3>February : {{ entry[2] }} </h3> <h3> March : {{ entry[3] }}</h3>
+                            <h3></h3>
+                            <h3>April : {{ entry[4] }}</h3><h3>May : {{ entry[5] }}</h3> <h3> June :{{ entry[6] }}</h3>
+                            <h3></h3>
+                            <h3>July :{{ entry[7] }}</h3><h3>August : {{ entry[8] }}</h3> <h3> September : {{ entry[9] }}</h3>
+                            <h3></h3>
+                            <h3>October : {{ entry[10] }}</h3><h3>November : {{ entry[11] }}</h3> <h3>December : {{ entry[12] }}</h3>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
 
@@ -171,4 +194,4 @@
     
 
 </body>
-</html>
+</html> 
