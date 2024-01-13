@@ -11,10 +11,10 @@ current_month_number = current_date.month
 
 # Load initial data from the Excel file
 excel_file_path = 'E:/expense2024_dashboard.xlsx'
-sheet_name = 'Sheet1'
+excel_file_budget = 'E:/budget2024_dashboard.xlsx'
  
-df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
-budget_df = pd.read_excel(excel_file_path, sheet_name='Sheet2')
+df = pd.read_excel(excel_file_path)
+budget_df = pd.read_excel(excel_file_budget)
 
 
 def read_data_budget():
@@ -24,7 +24,7 @@ def write_data_budget(new_data):
     global budget_df  # Declare df as a global variable
     budget_df_new = pd.DataFrame(new_data)
     budget_df = pd.concat([budget_df, budget_df_new], ignore_index=True)
-    budget_df.to_excel(excel_file_path, index=False)
+    budget_df.to_excel(excel_file_budget, index=False)
     return {'message': 'Data updated successfully!'}
 
 
@@ -42,7 +42,7 @@ def write_data(new_data):
 def calculate_financial_metrics():
     total_income = df.loc[df['Transaction'] == 'Deposit', 'Amount'].sum()
     total_expense = df.loc[df['Transaction'] == 'Expense', 'Amount'].sum()
-    balance = total_income -total_expense
+    balance = round(total_income -total_expense,2)
     return total_income, total_expense, balance
 
 def calulate_expense_metrics():
@@ -117,7 +117,7 @@ def statistics():
     #return render_template('statistics.html')
     total_income, total_expense, balance = calculate_financial_metrics()
     food, rent, personal,recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
-    profit__loss = int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense
+    profit__loss = round(int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense,2)
     return render_template('statistics.html', total_income=total_income,
                            total_expense=total_expense, profit_loss=profit__loss, balance=balance,food=food, rent=rent, personal=personal,recharge=recharge, e_bill=e_bill,
                            grocery=grocery, travel=travel, stationary=stationary)
@@ -126,7 +126,7 @@ def statistics():
 def dashboard():
     total_income, total_expense, balance = calculate_financial_metrics()
     food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
-    profit__loss = int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense
+    profit__loss = round(int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense,2)
     return render_template('dashboard.html', total_income=total_income, total_expense=total_expense, profit_loss=profit__loss, balance=balance)
 
 @app.route('/profile')
@@ -135,7 +135,7 @@ def profile():
     latest_data = read_data()[-5:][::-1]  # Get the latest 5 data entries
     total_income, total_expense, balance = calculate_financial_metrics()
     food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
-    profit__loss = int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense
+    profit__loss = round(int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense,2)
     return render_template('profile.html', latest_data=latest_data, total_income=total_income,
                            total_expense=total_expense, profit_loss=profit__loss, balance=balance)
 
@@ -177,7 +177,7 @@ def filter_by_month():
     month = request.form['month']
     food_expense, rent_expense, personal_expense, recharge_expense, e_bill_expense, grocery_expense, travel_expense, stationary_expense ,expense= calculate_expense_metrics(
         month)
-    profit = int(budget_df[int(month)][-1:]) + recharge_expense + e_bill_expense -expense
+    profit = round(int(budget_df[int(month)][-1:]) + recharge_expense + e_bill_expense -expense,2)
     year = [" Select Month ", 'January','February','March','April','May','June','July','August','September','October','November','December']
     month = year[int(month)]
 
