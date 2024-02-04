@@ -40,22 +40,50 @@ def write_data(new_data):
 
 
 def calculate_financial_metrics():
-    total_income = df.loc[df['Transaction'] == 'Deposit', 'Amount'].sum()
-    total_expense = df.loc[df['Transaction'] == 'Expense', 'Amount'].sum()
-    balance = round(total_income -total_expense,2)
+
+    df['Date'] = pd.to_datetime(df['Date'])
+    
+    # Extract the current month and year
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    
+    # Filter DataFrame for the current month
+    df_current_month = df[(df['Date'].dt.month == current_month) & (df['Date'].dt.year == current_year)]
+
+    # Calculate financial metrics for the current month
+    total_income = df_current_month.loc[df_current_month['Transaction'] == 'Deposit', 'Amount'].sum()
+    total_expense = df_current_month.loc[df_current_month['Transaction'] == 'Expense', 'Amount'].sum()
+    
+
+
+    total_income_1 = df.loc[df['Transaction'] == 'Deposit', 'Amount'].sum()
+    total_expense_1 = df.loc[df['Transaction'] == 'Expense', 'Amount'].sum()
+    balance = round(total_income_1 -total_expense_1,2)
     return total_income, total_expense, balance
 
-def calulate_expense_metrics():
-    food = df.loc[df['Category'].isin(['Lunch', 'Nashta', 'Dinner', 'Eve.Break', 'Off Dinner']), 'Amount'].sum()
-    rent = df.loc[df['Category'] == 'Rent', 'Amount'].sum()
-    personal = df.loc[df['Category'] == 'Personal', 'Amount'].sum()
-    recharge = df.loc[df['Category'] == 'Recharges', 'Amount'].sum()
-    e_bill = df.loc[df['Category'] == 'E - Bill', 'Amount'].sum()
-    grocery = df.loc[df['Category'] == 'Grocery', 'Amount'].sum()
-    travel = df.loc[df['Category'] == 'Travel', 'Amount'].sum()
-    stationary = df.loc[df['Category'] == 'Stationary', 'Amount'].sum()
-    return food, rent, personal,recharge, e_bill, grocery, travel, stationary
 
+def calculate_expense_metrics_1(selected_month):
+    # Convert 'Date' column to datetime
+    df['Date'] = pd.to_datetime(df['Date'], format='%m/%d/%Y')
+    #print(df['Date'])
+    # Filter data for the selected month
+    selected_month_data = df[df['Date'].dt.month == int(selected_month)]
+
+
+    food = selected_month_data.loc[selected_month_data['Category'].isin(['Lunch', 'Nashta', 'Dinner', 'Eve.Break', 'Off Dinner']), 'Amount'].sum()
+    rent = selected_month_data.loc[selected_month_data['Category'] == 'Rent', 'Amount'].sum()
+    personal = selected_month_data.loc[selected_month_data['Category'] == 'Personal', 'Amount'].sum()
+    recharge = selected_month_data.loc[selected_month_data['Category'] == 'Recharges', 'Amount'].sum()
+    e_bill = selected_month_data.loc[selected_month_data['Category'] == 'E - Bill', 'Amount'].sum()
+    grocery = selected_month_data.loc[selected_month_data['Category'] == 'Grocery', 'Amount'].sum()
+    travel = selected_month_data.loc[selected_month_data['Category'] == 'Travel', 'Amount'].sum()
+    stationary = selected_month_data.loc[selected_month_data['Category'] == 'Stationary', 'Amount'].sum()
+    expense = selected_month_data.loc[selected_month_data['Transaction'] == 'Expense', 'Amount'].sum()
+
+
+    return food, rent, personal, recharge, e_bill, grocery, travel, stationary
+
+    
 
 def calculate_expense_metrics(selected_month):
     # Convert 'Date' column to datetime
@@ -77,7 +105,6 @@ def calculate_expense_metrics(selected_month):
 
 
     return food, rent, personal, recharge, e_bill, grocery, travel, stationary,expense
-
 
 def login_is_successful(email, password):
     # Replace these values with your actual authentication logic
@@ -116,7 +143,7 @@ def index():
 def statistics():
     #return render_template('statistics.html')
     total_income, total_expense, balance = calculate_financial_metrics()
-    food, rent, personal,recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
+    food, rent, personal,recharge, e_bill, grocery, travel, stationary = calculate_expense_metrics_1(current_month_number)
     profit__loss = round(int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense,2)
     return render_template('statistics.html', total_income=total_income,
                            total_expense=total_expense, profit_loss=profit__loss, balance=balance,food=food, rent=rent, personal=personal,recharge=recharge, e_bill=e_bill,
@@ -125,16 +152,16 @@ def statistics():
 @app.route('/dashboard')
 def dashboard():
     total_income, total_expense, balance = calculate_financial_metrics()
-    food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
+    food, rent, personal, recharge, e_bill, grocery, travel, stationary = calculate_expense_metrics_1(current_month_number)
     profit__loss = round(int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense,2)
     return render_template('dashboard.html', total_income=total_income, total_expense=total_expense, profit_loss=profit__loss, balance=balance)
 
 @app.route('/profile')
 def profile():
 
-    latest_data = read_data()[-5:][::-1]  # Get the latest 5 data entries
+    latest_data = read_data()[-10:][::-1]  # Get the latest 5 data entries
     total_income, total_expense, balance = calculate_financial_metrics()
-    food, rent, personal, recharge, e_bill, grocery, travel, stationary = calulate_expense_metrics()
+    food, rent, personal, recharge, e_bill, grocery, travel, stationary = calculate_expense_metrics_1(current_month_number)
     profit__loss = round(int(budget_df[int(current_month_number)][-1:]) + recharge + e_bill - total_expense,2)
     return render_template('profile.html', latest_data=latest_data, total_income=total_income,
                            total_expense=total_expense, profit_loss=profit__loss, balance=balance)
